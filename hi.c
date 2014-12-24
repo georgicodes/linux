@@ -1,24 +1,21 @@
-/* Module source file 'hi.c'. */  
-#include <linux/module.h>      // for all modules 
-#include <linux/init.h>        // for entry/exit macros 
-#include <linux/kernel.h>      // for printk priority macros 
-#include <asm/current.h>       // process information, just for fun 
-#include <linux/sched.h>       // for "struct task_struct" 
+#include <linux/module.h>    // included for all kernel modules
+#include <linux/kernel.h>    // included for KERN_INFO
+#include <linux/init.h>      // included for __init and __exit macros
 
-static int hi(void)
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Georgi");
+MODULE_DESCRIPTION("A Simple Hello World module");
+
+static int __init hello_init(void)
 {
-     printk(KERN_DEBUG "Hello World!");
-     return 0;       // to show a successful load 
-}  
+    printk(KERN_DEBUG "Hello world!\n");
+    return 0;    // Non-zero return means that the module couldn't be loaded.
+}
 
-static void bye(void) 
+static void __exit hello_cleanup(void)
 {
-     printk(KERN_DEBUG "hi module being unloaded.\n"); 
-}  
+    printk(KERN_DEBUG "Cleaning up module.\n");
+}
 
-module_init(hi);     // what's called upon loading 
-module_exit(bye);    // what's called upon unloading  
-
-MODULE_AUTHOR("Georgi K"); 
-MODULE_LICENSE("Dual BSD/GPL"); 
-MODULE_DESCRIPTION("You have to start somewhere.");
+module_init(hello_init);
+module_exit(hello_cleanup);

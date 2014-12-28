@@ -1,7 +1,16 @@
 linux
 =====
 
+# Setup and Configuration
+
+## OS + Vmware
+```
+# CentOS 
+TBD
+```
+
 ## Git
+Helpful README's and files will be stored here
 ```
 git clone https://github.com/GeorgiCodes/linux.git
 ```
@@ -18,8 +27,11 @@ yum install git wget
 ## Mutt
 ```bash
 yum install mutt
-yum install cyrus-sasl-sql cyrus-sasl-plain cyrus-sasl-lib #sending doesn't seem to work without this
+#sending doesn't seem to work without this
+yum install cyrus-sasl-sql cyrus-sasl-plain cyrus-sasl-lib 
 ```
+
+Help with using [mutt](http://lifehacker.com/5574557/how-to-use-the-fast-and-powerful-mutt-email-client-with-gmail).
 
 create `~\.muttrc` and put this
 ```bash
@@ -63,4 +75,41 @@ set editor='vi'
 # set charset to utf-8
 set send_charset="us-ascii:utf-8"
 ```
+
+## Linux Helpful Commands
+
+### dmesg
+The dmesg command is used to write the kernel messages in Linux and other Unix-like operating systems to standard output.
+
+The output of dmesg is maintained in the log file `/var/log/dmesg`
+
+```bash
+dmesg | less
+tail -f /var/log/messages
+```
+
+### Kernel Development
+
+```bash
+yum install ncurses-devel	# so that `make menuconfig` will run
+yum install bc	# required for kernel build
+uname -a 	# info about running kernel
+ls /boot	# lists configured and built kernels
+ls /lib/modules 	# each kernel has dir of loadable modules
+```
+
+Setup the config for the new kernel:
+```bash
+# clone's Linus' bleeding edge kernel
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
+cd linux	
+# copies current kernel's config file 
+cp /boot/config-`uname -r`* .config 	
+make menuconfig	# if you want to make any config changes
+# brings .config inline with current kernel version, sets defaults to new options
+make olddefconfig	
+```
+
+Now the kernel can be built with `make`.
+
 

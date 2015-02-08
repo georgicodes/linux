@@ -48,7 +48,7 @@ static int __init hello_init(void)
 static void __exit hello_cleanup(void)
 {
     // deregister driver with USB subsystem
-    usb_deregister(&usb_hello_driver)
+    usb_deregister(&usb_hello_driver);
     printk(KERN_DEBUG "Cleaning up hello world module.\n");
 }
 

@@ -27,12 +27,12 @@ static int hello_usb_probe(struct usb_interface *interface,
 
 static void hello_usb_disconnect(struct usb_interface *interface)
 {
-    printk(KERN_DEBUG "Disconnecting USB.\n");
+    printk(KERN_DEBUG "Disconnecting Hello USB.\n");
     return;
 }
 
 // register with USB subsystem
-static struct usb_driver usb_hello_driver = {
+static struct usb_driver hello_usb_driver = {
     .name =     "hello_usb_driver",
     .probe =    hello_usb_probe,
     .disconnect =   hello_usb_disconnect,
@@ -41,14 +41,15 @@ static struct usb_driver usb_hello_driver = {
 
 static int __init hello_init(void)
 {
-    printk(KERN_DEBUG "Hello world!\n");
+    if (!usb_register(&hello_usb_driver))
+        printk(KERN_DEBUG "Hello world!\n");
     return 0;    // Non-zero return means that the module couldn't be loaded.
 }
 
 static void __exit hello_cleanup(void)
 {
     // deregister driver with USB subsystem
-    usb_deregister(&usb_hello_driver);
+    usb_deregister(&hello_usb_driver);
     printk(KERN_DEBUG "Cleaning up hello world module.\n");
 }
 

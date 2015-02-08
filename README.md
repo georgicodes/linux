@@ -76,6 +76,14 @@ set send_charset="us-ascii:utf-8"
 
 ```bash
 cat /etc/centos-release		# centos version
+uname -a 	# info about running kernel
+
+ls /boot	# lists configured and built kernels
+ls /lib/modules 	# each kernel has dir of loadable modules
+
+insmod hi.ko 	# load kernel module
+lsmod # list currently loaded modules
+modinfo hi # unload kernel module 
 ```
 
 ### dmesg
@@ -88,26 +96,22 @@ dmesg | less
 tail -f /var/log/messages
 ```
 
-### Kernel Development
+## Loadable Kernel Modules
 
-## Arch Kernel Modules
+### Arch
+```bash
+pacman -S linux-headers # install this to build kernel modules
+journalctl 	# view kernel logs (Arch)
 ```
-pacman -S linux-headers 
-journalctl
-insmod hi.ko
-```
 
-
-
+### CentOS 
 ```bash
 yum install ncurses-devel	# so that `make menuconfig` will run
 yum install bc	# required for kernel build
-uname -a 	# info about running kernel
-ls /boot	# lists configured and built kernels
-ls /lib/modules 	# each kernel has dir of loadable modules
 ```
 
-Setup the config for the new kernel:
+## Building your own Kernel
+### Setup the config for the new kernel:
 ```bash
 # clone's Linus' bleeding edge kernel
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
@@ -119,7 +123,7 @@ make menuconfig	# if you want to make any config changes
 make olddefconfig	
 ```
 
-Now the kernel can be built:
+### Now the kernel can be built:
 ```
 make
 make modules_install
@@ -128,7 +132,7 @@ vim /etc/default/grub 	# update with any boot loader changes
 grub2-mkconfig -o /boot/grub2/grub.config# regenerate grub.conf if you made changes
 ```
 
-#### Deleting old kernels
+### Deleting old kernels
 ```rpm
 rpm -q kernel
 yum install yum-utils
@@ -141,6 +145,5 @@ package-cleanup --oldkernels --count=1
 git send-email --smtp-encryption=tls --smtp-server=smtp.gmail.com --smtp-user=georgiknox@gmail.com --smtp-server-port=587 --to "GeorgiKnox <kthankyoubai@gmail.com>" 0001-x86-Fix-reboot-problem-on-VersaLogic-Menlow-boards.patch
 ```
 
-TDO
-* Ubuntu Vagrant
+
 

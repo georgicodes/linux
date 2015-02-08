@@ -3,12 +3,6 @@ linux
 
 # Setup and Configuration
 
-## OS + Vmware
-```
-# CentOS 
-TBD
-```
-
 ## Git
 Helpful README's and files will be stored here
 ```
@@ -78,6 +72,12 @@ set send_charset="us-ascii:utf-8"
 
 ## Linux Helpful Commands
 
+### General
+
+```bash
+cat /etc/centos-release		# centos version
+```
+
 ### dmesg
 The dmesg command is used to write the kernel messages in Linux and other Unix-like operating systems to standard output.
 
@@ -89,6 +89,15 @@ tail -f /var/log/messages
 ```
 
 ### Kernel Development
+
+## Arch Kernel Modules
+```
+pacman -S linux-headers 
+journalctl
+insmod hi.ko
+```
+
+
 
 ```bash
 yum install ncurses-devel	# so that `make menuconfig` will run
@@ -110,6 +119,28 @@ make menuconfig	# if you want to make any config changes
 make olddefconfig	
 ```
 
-Now the kernel can be built with `make`.
+Now the kernel can be built:
+```
+make
+make modules_install
+make install
+vim /etc/default/grub 	# update with any boot loader changes
+grub2-mkconfig -o /boot/grub2/grub.config# regenerate grub.conf if you made changes
+```
 
+#### Deleting old kernels
+```rpm
+rpm -q kernel
+yum install yum-utils
+package-cleanup --oldkernels --count=1
+```
+
+## Submitting a Linux Kernel Patch
+
+```bash
+git send-email --smtp-encryption=tls --smtp-server=smtp.gmail.com --smtp-user=georgiknox@gmail.com --smtp-server-port=587 --to "GeorgiKnox <kthankyoubai@gmail.com>" 0001-x86-Fix-reboot-problem-on-VersaLogic-Menlow-boards.patch
+```
+
+TDO
+* Ubuntu Vagrant
 

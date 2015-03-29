@@ -11,7 +11,7 @@ static int __init driver_entry(void)
 {
     printk(KERN_INFO "HelloChar: registered");
     
-    alloc_chrdev_region(&mydev, 0, 1, "HelloChar")
+    alloc_chrdev_region(&mydev, 0, 1, "HelloChar");
     
     printk(KERN_INFO "HelloChar: <Major, Minor>: <%d, %d>\n", MAJOR(mydev), MINOR(mydev));
     return 0;

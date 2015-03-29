@@ -84,6 +84,8 @@ ls /lib/modules 	# each kernel has dir of loadable modules
 insmod hi.ko 	# load kernel module
 lsmod # list currently loaded modules
 modinfo hi # unload kernel module 
+
+ls /usr/share/man/man2 | sed -e s/.2.gz//g | xargs man -s 2 -k  | sort | grep -v 'unimplemented system calls'
 ```
 
 ### dmesg
@@ -117,7 +119,7 @@ yum install bc	# required for kernel build
 git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
 cd linux	
 # copies current kernel's config file 
-cp /boot/config-`uname -r`* .config 	
+cp /boot/config-`uname -r`* .config 
 make menuconfig	# if you want to make any config changes
 # brings .config inline with current kernel version, sets defaults to new options
 make olddefconfig	

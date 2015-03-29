@@ -35,7 +35,7 @@ static int __init driver_entry(void)
 {
     printk(KERN_INFO "HelloChar: registered");
 
-    alloc_chrdev_region(&mydev, 0, 1, "HelloChar")
+    alloc_chrdev_region(&mydev, 0, 1, "HelloChar");
 
     cdev_init(&my_cdev, &my_fops);
     my_cdev.owner = THIS_MODULE;

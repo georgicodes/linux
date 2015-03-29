@@ -5,23 +5,22 @@
 #include <linux/kdev_t.h>
 #include <linux/fs.h>
  
-static dev_t first; /* Global variable for the first device number */
+static dev_t mydev; /* Global variable for the device number */
  
-static int __init driver_entry(void) /* Constructor */
+static int __init driver_entry(void)
 {
-    printk(KERN_INFO "++++ HelloChar: registered");
-    if (alloc_chrdev_region(&first, 0, 3, "HelloChar") < 0)
-    {
-        return -1;
-    }
-    printk(KERN_INFO "++++ HelloChar: <Major, Minor>: <%d, %d>\n", MAJOR(first), MINOR(first));
+    printk(KERN_INFO "HelloChar: registered");
+    
+    alloc_chrdev_region(&mydev, 0, 1, "HelloChar")
+    
+    printk(KERN_INFO "HelloChar: <Major, Minor>: <%d, %d>\n", MAJOR(mydev), MINOR(mydev));
     return 0;
 }
  
-static void __exit driver_exit(void) /* Destructor */
+static void __exit driver_exit(void)
 {
-    unregister_chrdev_region(first, 3);
-    printk(KERN_INFO "++++ HelloChar: unregistered");
+    unregister_chrdev_region(mydev, 1);
+    printk(KERN_INFO "HelloChar: unregistered");
 }
  
 module_init(driver_entry);

@@ -5,7 +5,7 @@
 #include <linux/kdev_t.h>
 #include <linux/fs.h>
  
-static dev_t mydev /* Global variable for the device number */
+static dev_t mydev; /* Global variable for the device number */
 static char output[] = "Be a Linux unicorn!\n";
 struct cdev my_cdev;
 

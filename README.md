@@ -1,22 +1,27 @@
 linux
 =====
 
-# Setup and Configuration
-
-## Git
 Helpful README's and files will be stored here
 ```
 git clone https://github.com/GeorgiCodes/linux.git
 ```
 
-## Required Installs
+# Setup
+
+## Getting started
 ```
-yum upgrade
-yum install kernel-devel
-shutdown -r now
-yum groupinstall 'Development Toolsa'
-yum install git wget
+apt-get upgrade
+apt-get install git
+apt-get install build-essential		# required for building C kernel modules etc.
 ```
+
+## Loadable Kernel Modoules
+
+```bash
+apt-get install linux-headers-$(uname -r)	# required to build modules against C headers
+```
+
+
 
 ## Mutt
 ```bash
@@ -75,7 +80,6 @@ set send_charset="us-ascii:utf-8"
 ### General
 
 ```bash
-cat /etc/centos-release		# centos version
 uname -a 	# info about running kernel
 
 ls /boot	# lists configured and built kernels
@@ -130,6 +134,7 @@ make olddefconfig
 make
 make modules_install
 make install
+
 vim /etc/default/grub 	# update with any boot loader changes
 grub2-mkconfig -o /boot/grub2/grub.config# regenerate grub.conf if you made changes
 ```

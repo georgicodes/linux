@@ -6,17 +6,29 @@
 #include <linux/fs.h>
  
 static dev_t mydev; /* Global variable for the device number */
+struct cdev my_cdev;
 
 static int dev_open(struct inode *, struct file *);
 static int dev_rls(struct inode *, struct file *);
 static ssize_t dev_read(struct file *, char *, size_t, loff_t *);
 static ssize_t dev_write(struct file *, char *, size_t, loff_t *);
 
+static struct file_operations fops = 
+{
+    .read = dev_read,
+    .open = dev_open,
+    .write = dev_write,
+    .release = dev_rls,
+};
+
 static int __init driver_entry(void)
 {
     printk(KERN_INFO "HelloChar: registered");
     
     alloc_chrdev_region(&mydev, 0, 1, "HelloChar");
+    cdev_init(&my_cdev, &fops);
+    my_cdev.owner = THIS_MODULE;
+    cdev_add(&my_cdev, mydev, 1);
     
     printk(KERN_INFO "HelloChar: <Major, Minor>: <%d, %d>\n", MAJOR(mydev), MINOR(mydev));
     return 0;

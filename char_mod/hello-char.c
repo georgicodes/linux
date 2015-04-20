@@ -3,8 +3,9 @@
 #include <linux/fs.h>
 #include <asm/uaccess.h>
 
-MODULE_AUTHOR("Eddy Reyes");
+MODULE_AUTHOR("Georgi");
 MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("A simple char device");
 
 #define DEVICE_NAME "hello-char"
 
@@ -14,7 +15,7 @@ static ssize_t read_dev(struct file *, char *, size_t, loff_t *);
 static ssize_t write_dev(struct file *, const char *, size_t, loff_t *);
 
 static int major;
-static const char *msg = "hello from the char device!\n";
+static const char *msg = "Hello CodepLOUsa!\n";
 static unsigned long use_count = 0;
 
 static struct file_operations fops = {
@@ -26,24 +27,21 @@ static struct file_operations fops = {
 
 int init_module(void)
 {
-        major = register_chrdev(0, DEVICE_NAME, &fops);
+    major = register_chrdev(0, DEVICE_NAME, &fops);
 
 	if (major < 0) {
 	  printk(KERN_ALERT "Registering char device failed with %d\n", major);
 	  return major;
 	}
 
-	printk(KERN_INFO "I was assigned major number %d.\n", major);
-	printk(KERN_INFO "Run 'mknod /dev/%s c %d 0'.\n", DEVICE_NAME, major);
+	printk(KERN_INFO ">>> I was assigned major number %d. <<<\n", major);
+	printk(KERN_INFO ">>> Run 'mknod /dev/%s c %d 0'. <<<\n", DEVICE_NAME, major);
 
 	return 0;
 }
 
 void cleanup_module(void)
 {
-	/* 
-	 * Unregister the device 
-	 */
 	unregister_chrdev(major, DEVICE_NAME);
 }
 
